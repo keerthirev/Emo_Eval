@@ -1,3 +1,20 @@
+#        -- TODO --
+# - x-fold cross validation
+# - dimensionality reduction
+# - alternative weighting
+# - adding features
+#   - pinpoint emojis
+#   - differentiate between turns
+#   - POS, NER
+#   - find emotional words
+# - other classifiers
+#   - Randomize baseline
+#   - Naive Bayes baseline
+#   - Random forest
+#   - Neural Network
+#   - different SVM kernel
+
+# DEPENDENCIES: sklearn, pandas, pandas_ml, spacy
 
 import re, sys
 from time import time
@@ -7,6 +24,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA, TruncatedSVD
 from sklearn import svm
+from sklearn.naive_bayes import GaussianNB
 from pandas_ml import ConfusionMatrix
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
 
@@ -36,7 +54,6 @@ for index, instance in instances.iterrows():
     labels.append(instance['label'])
 print("Separating text and labels finished in %0.3fsec\n" % (time()-t))
 
-
 # 60/40 split of training and test data
 X_train, X_test, y_train, y_test = train_test_split(row_strings, labels, test_size=0.4, random_state=0)
 
@@ -53,11 +70,24 @@ print("Creating feature vectors finished in %0.3fsec\n" % (time()-t))
 # svd = TruncatedSVD(n_components=300) #use sparse setting instead?
 # pca = PCA(n_components=300)
 
+# # Training Naive Bayes on training data
+# print("Training Naive Bayes")
+# t = time()
+# nbClassifier = GaussianNB(priors=None, var_smoothing=1e-09).fit(X_train_vec, y_train)
+# print("Training Naive Bayes finished in %0.3fsec\n" % (time()-t))
+
+# # Training Random Forest on training data
+# print("Training Random Forest")
+# t = time()
+# rfClassifier = ___.fit(X_train_vec, y_train)
+# print("Training Random Forest finished in %0.3fsec\n" % (time()-t))
+
 # Training linear kernel SVM on training data
 print("Training SVM")
 t = time()
-classifier = svm.SVC(kernel='linear', C=1).fit(X_train_vec, y_train)
+svmClassifier = svm.SVC(kernel='linear', C=1).fit(X_train_vec, y_train)
 print("Training SVM finished in %0.3fsec\n" % (time()-t))
+
 
 # Creating bag of words feature vectors from test data
 print("Vectorizing test features")
@@ -68,7 +98,7 @@ print("Vectorizing test features finished in %0.3fsec\n" % (time()-t))
 # Creating confusion matrix
 print("Predicting test instances\n")
 y_true = y_test
-y_pred = classifier.predict(X_test_vec)
+y_pred = svmClassifier.predict(X_test_vec)
 confusion_matrix = ConfusionMatrix(y_true, y_pred)
 
 print("Confusion matrix:\n%s\n" % confusion_matrix)
