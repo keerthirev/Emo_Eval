@@ -34,7 +34,7 @@ from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_sc
 # nlp = en_core_web_sm.load()
 
 # Taking arg of file name, if no arg given, assumes 
-file_name = 'train.txt'
+file_name = 'data/train.txt'
 if len(sys.argv) > 1:
     file_name = sys.argv[1]
 
