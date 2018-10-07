@@ -17,12 +17,12 @@ if [ -z $(command -v python3) ]; then
         fi
     fi
 else
+    # python3 command exists, we're good to go
     p='3'
 fi
-# python3 command exists, we're good to go
 echo 'Python version check successful'
 
-python$p -m venv venv
-source venv/bin/activate
-pip$p install -r requirements.txt
+python$p -m venv venv # Create virtual environment
+source venv/bin/activate # Activate virtual environment
+pip$p install -r requirements.txt # Install dependencies
 python$p -m spacy download en
