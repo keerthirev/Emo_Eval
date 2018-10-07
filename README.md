@@ -1,4 +1,6 @@
-# EmoEval
+# EmoContext
+
+Entry for SemEval 2019 task 3
 
 ## Install
 
