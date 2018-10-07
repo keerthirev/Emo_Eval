@@ -25,3 +25,4 @@ echo 'Python version check successful'
 python$p -m venv venv
 source venv/bin/activate
 pip$p install -r requirements.txt
+python$p -m spacy download en
